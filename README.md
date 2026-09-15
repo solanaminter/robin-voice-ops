@@ -2,8 +2,8 @@
 
 **The voice dispatcher for home-services businesses** — built on the [AssemblyAI Voice Agent API](https://www.assemblyai.com/docs/voice-agents). It doesn't just talk: it books appointments, checks job status, files service requests, answers from a knowledge base, and escalates emergencies — with a **human approval gate on every irreversible action** and a **hash-chained audit log** of everything it does.
 
-🎥 Demo video: *(YouTube link — parent to add after upload)*
-🚀 Live demo: *(Vercel URL — parent to add after deploy)*
+🎥 Demo video: https://www.youtube.com/watch?v=0vWAgy58I1c
+🚀 Live demo: https://robin-voice-ops-demo.vercel.app
 📊 Pitch deck: [/slides.html](/slides.html) (served with the demo)
 
 Built solo by **Solana Minter (Purple Castle Ventures)** for the **AssemblyAI Voice Agent Hackathon** (lablab.ai, September 2026).
