@@ -1,0 +1,152 @@
+{
+  "n_scenarios": 6,
+  "n_passed": 6,
+  "task_completion": "6/6",
+  "p50_ms": 1814,
+  "p95_ms": 3767,
+  "n_turns_measured": 6,
+  "results": [
+    {
+      "id": "book_flow",
+      "desc": "Availability lookup fires with caller's words",
+      "tools_called": [
+        "check_availability"
+      ],
+      "tool_args": [
+        {
+          "request": "a plumber tomorrow morning for a leaking water heater"
+        }
+      ],
+      "expected": [
+        "check_availability"
+      ],
+      "pass": true,
+      "arg_check": true,
+      "latency_ms": [
+        1809.3607425689697
+      ],
+      "agent_said": [
+        "I found a plumbing slot available tomorrow morning, between eight and twelve. Would you like me to request that for you? Just so you know, it'll need our dispatcher's approval to confirm."
+      ],
+      "wall_s": 50.1
+    },
+    {
+      "id": "job_status",
+      "desc": "Job status lookup fires with phone digits in identifier",
+      "tools_called": [
+        "check_job_status"
+      ],
+      "tool_args": [
+        {
+          "identifier": "415-555-0101"
+        }
+      ],
+      "expected": [
+        "check_job_status"
+      ],
+      "pass": true,
+      "arg_check": true,
+      "latency_ms": [
+        2818.47882270813
+      ],
+      "agent_said": [
+        "I've located your job. Your technician is currently en route to you."
+      ],
+      "wall_s": 52.6
+    },
+    {
+      "id": "faq_hours",
+      "desc": "FAQ lookup fires for business-hours question",
+      "tools_called": [
+        "lookup_faq"
+      ],
+      "tool_args": [
+        {
+          "query": "What are your business hours?"
+        }
+      ],
+      "expected": [
+        "lookup_faq"
+      ],
+      "pass": true,
+      "arg_check": true,
+      "latency_ms": [
+        1819.3175792694092
+      ],
+      "agent_said": [
+        "We are open from eight AM to six PM, Monday through Friday, and from nine AM to two PM on Saturdays."
+      ],
+      "wall_s": 48.1
+    },
+    {
+      "id": "faq_price",
+      "desc": "FAQ lookup fires for pricing question",
+      "tools_called": [
+        "lookup_faq"
+      ],
+      "tool_args": [
+        {
+          "query": "How much does a visit cost?"
+        }
+      ],
+      "expected": [
+        "lookup_faq"
+      ],
+      "pass": true,
+      "arg_check": true,
+      "latency_ms": [
+        1692.9435729980469
+      ],
+      "agent_said": [
+        "Diagnostic visits are eighty-nine dollars, and that fee is waived if you decide to go ahead with the repair."
+      ],
+      "wall_s": 47.9
+    },
+    {
+      "id": "emergency",
+      "desc": "Emergency escalates to a human",
+      "tools_called": [
+        "escalate_to_human"
+      ],
+      "tool_args": [
+        {
+          "reason": "A pipe burst in my basement, water everywhere!"
+        }
+      ],
+      "expected": [
+        "escalate_to_human"
+      ],
+      "pass": true,
+      "arg_check": true,
+      "latency_ms": [
+        1707.0910930633545
+      ],
+      "agent_said": [
+        "That's urgent \u2014 I'm flagging a human dispatcher right now. Stay on the line."
+      ],
+      "wall_s": 49.8
+    },
+    {
+      "id": "off_script",
+      "desc": "Off-script remark handled gracefully (tool or direct reply)",
+      "tools_called": [
+        "respond_freely"
+      ],
+      "tool_args": [
+        {}
+      ],
+      "expected": [],
+      "pass": true,
+      "arg_check": true,
+      "latency_ms": [
+        3767.084836959839
+      ],
+      "agent_said": [
+        "I'm Robin, the AI dispatcher for Robin Home Services. Happy to help with that \u2014 were you looking to book a visit or check on a job?"
+      ],
+      "wall_s": 47.4
+    }
+  ],
+  "latency_def": "end-of-caller-audio-stream -> first tool.call (agent decision latency)",
+  "note": "Live evals vs the real AssemblyAI Voice Agent API; caller audio synthesized locally (Kokoro/espeak)."
+}

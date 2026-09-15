@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robin Voice Ops — Pitch Deck</title>
+<style>
+:root{--bg:#0b0e13;--acc:#4cc38a;--mut:#8b95a5;--card:#141922}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#eef2f7;font-family:system-ui,sans-serif;overflow:hidden}
+.slide{display:none;height:100vh;padding:8vh 10vw;flex-direction:column;justify-content:center}
+.slide.active{display:flex}
+h1{font-size:56px;margin:0 0 12px}h2{font-size:15px;text-transform:uppercase;letter-spacing:.2em;color:var(--acc);margin:0 0 16px}
+p.big{font-size:24px;color:#c9d2dd;max-width:900px}
+ul{font-size:22px;line-height:1.9;color:#c9d2dd}li b{color:#fff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:20px}
+.box{background:var(--card);border:1px solid #232b36;border-radius:14px;padding:22px}
+.box .n{font-size:40px;font-weight:800;color:var(--acc)}
+.box .l{color:var(--mut);font-size:15px}
+table{width:100%;border-collapse:collapse;font-size:19px;margin-top:10px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid #232b36}th{color:var(--mut);font-size:14px;text-transform:uppercase}
+td.us{background:#10281c;font-weight:700}
+.nav{position:fixed;bottom:24px;right:32px;color:var(--mut);font-size:14px}
+a{color:var(--acc)}.mut{color:var(--mut)}
+code{background:#141922;padding:2px 8px;border-radius:6px;font-size:.85em}
+</style>
+</head>
+<body>
+
+<div class="slide active">
+<h2>AssemblyAI Voice Agent Hackathon · Sep 2026</h2>
+<h1>◉ Robin Voice Ops</h1>
+<p class="big">The voice dispatcher for home-services businesses. It doesn't just talk — it <b style="color:#fff">books, checks, logs, and escalates</b>, with a human approval gate on everything irreversible.</p>
+<p class="mut">Solana Minter · Purple Castle Ventures · solo entry · <a href="/">live demo</a></p>
+</div>
+
+<div class="slide">
+<h2>The problem</h2>
+<h1>Small contractors drown in phone calls</h1>
+<ul>
+<li>Up to ~<b>62% of calls</b> to home-services SMBs go unanswered during job hours <span class="mut">(industry call-tracking reports)</span></li>
+<li>Every missed call is <b>$200–$500</b> of lost revenue walking to a competitor</li>
+<li>After-hours dispatchers cost <b>$3k+/month</b> — unaffordable for 2–10 person shops</li>
+<li>Existing "AI receptionists" are <b>prompt wrappers</b>: they take messages, they can't <i>do</i> anything</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>The solution</h2>
+<h1>A dispatcher with hands, not just a mouth</h1>
+<ul>
+<li>📞 Answers every call, 24/7, on web <b>and real phone lines</b> (Twilio bridge)</li>
+<li>🛠 <b>Real tools, real side effects</b>: books appointments, checks job status, files service requests, answers from a knowledge base</li>
+<li>🛡 <b>Human approval gates</b> — nothing irreversible happens on voice alone; every action lands in a <b>hash-chained audit log</b></li>
+<li>🧠 <b>Cross-session caller memory</b> — repeat callers are recognized and greeted by name</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>How it works — the call</h2>
+<h1>"My water heater is leaking…"</h1>
+<ul>
+<li>Caller speaks → <code>check_availability</code> finds a real slot in the bookings DB</li>
+<li><code>book_appointment</code> fires in <b>hold mode</b> — the agent goes quiet, the request <b>pends in the dispatcher dashboard</b></li>
+<li>Human approves → <code>tool.result</code> delivered → agent announces the confirmation</li>
+<li>Rejected? The agent offers the next slots. <b>No hallucinated bookings, ever.</b></li>
+</ul>
+<p class="mut">Try it live on the demo — then open Dispatcher ops and approve the booking yourself.</p>
+</div>
+
+<div class="slide">
+<h2>Architecture</h2>
+<table>
+<tr><th>Layer</th><th>What</th><th>Why</th></tr>
+<tr><td>Voice</td><td class="us">AssemblyAI Voice Agent API (WebSocket)</td><td class="us">STT + LLM + TTS in one hop, ~1s turns</td></tr>
+<tr><td>Tools</td><td class="us">JSON-Schema function tools, hold-mode gates</td><td class="us">Real side effects, human in the loop</td></tr>
+<tr><td>Trust</td><td class="us">Approval queue + hash-chained audit log</td><td class="us">Enterprise-grade accountability</td></tr>
+<tr><td>Memory</td><td class="us">SQLite caller profiles, conversation.message seeding</td><td class="us">Repeat callers recognized</td></tr>
+<tr><td>Surfaces</td><td class="us">Browser mic + Twilio PSTN bridge</td><td class="us">Judges can call from a real phone</td></tr>
+</table>
+</div>
+
+<div class="slide">
+<h2>Application of technology — depth, not wrapping</h2>
+<ul>
+<li><code>session.update</code> with <b>progressive tool reveal</b> — the booking tool doesn't exist until real slots are found (anti-fabrication by construction)</li>
+<li><b>Hold-mode execution</b> for gated actions + <code>reply.create</code> status updates; interactive mode for lookups</li>
+<li><code>keyterms_prompt</code> biased per trade, <code>transcription_prompt</code> for entities, <code>voice_focus</code> near-field</li>
+<li>Temp-token auth (<code>GET /v1/token</code>) — the API key never reaches the browser</li>
+<li><code>session.resume</code> reconnection, barge-in flush, word-level agent captions</li>
+<li>Parameter hints (<code>enum</code>/<code>pattern</code>/<code>examples</code>/<code>format</code>) so spoken phone numbers validate before tools run</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>Measured, not adjectives</h2>
+<div class="grid">
+<div class="box"><div class="n" id="m-p50">—</div><div class="l">p50 decision latency, speech-end → first tool.call (live evals)</div></div>
+<div class="box"><div class="n" id="m-p95">—</div><div class="l">p95 turn latency</div></div>
+<div class="box"><div class="n" id="m-tcr">—</div><div class="l">task-completion rate across scripted scenarios</div></div>
+</div>
+<p class="mut">Evals run against the real Voice Agent API with synthesized caller audio; harness + raw results in <code>evals/</code>. See EVALS.md.</p>
+</div>
+
+<div class="slide">
+<h2>Business value — TAM / SAM</h2>
+<div class="grid">
+<div class="box"><div class="n">~$480B</div><div class="l">US home-services market, est. (TAM)</div></div>
+<div class="box"><div class="n">~$38B</div><div class="l">SMB dispatch/scheduling software spend, est. (SAM)</div></div>
+<div class="box"><div class="n">~280k</div><div class="l">US home-services SMBs with &lt;20 staff, est. (SOM beachhead)</div></div>
+</div>
+<ul>
+<li><b>Revenue:</b> $199–$499/mo per business SaaS + $0.35/min voice usage + white-label for franchises</li>
+<li><b>Wedge:</b> one vertical (HVAC/plumbing), one workflow (booking + status), then expand trades</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>Competition</h2>
+<table>
+<tr><th></th><th>Books for real</th><th>Human approval gates</th><th>Audit log</th><th>Phone line</th></tr>
+<tr><td>Generic AI receptionists</td><td>message-taking</td><td>—</td><td>—</td><td>✓</td></tr>
+<tr><td>Hackathon voice demos</td><td>mocked</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td class="us">Robin Voice Ops</td><td class="us">✓ real DB holds</td><td class="us">✓</td><td class="us">✓ hash-chained</td><td class="us">✓ Twilio</td></tr>
+</table>
+<p class="mut">Nobody in the current hackathon field gates side effects behind humans or publishes an audit trail.</p>
+</div>
+
+<div class="slide">
+<h2>Roadmap</h2>
+<ul>
+<li><b>Now:</b> browser + Twilio surfaces, 6 tools, approval gates, audit log, caller memory</li>
+<li><b>Next:</b> outbound reminder/confirmation calls, SMS follow-ups, QuickBooks/Xero invoicing tool</li>
+<li><b>Later:</b> multi-location franchises, Spanish-first mode (18 AssemblyAI languages), on-call escalation trees</li>
+</ul>
+</div>
+
+<div class="slide">
+<h2>Try it</h2>
+<h1>Call Robin. Break it. Approve the booking.</h1>
+<p class="big"><a href="/">Live demo</a> · <a href="https://github.com/solanaminter/robin-voice-ops">GitHub (MIT)</a> · narrated video walkthrough on YouTube</p>
+<p class="mut">Built solo by Solana Minter (Purple Castle Ventures) for the AssemblyAI Voice Agent Hackathon · September 2026</p>
+</div>
+
+<div class="nav"><span id="n">1 / 11</span> · ← → to navigate</div>
+<script>
+let i = 0; const S = document.querySelectorAll(".slide");
+function show(n){ i = Math.max(0, Math.min(S.length-1, n)); S.forEach((s,k)=>s.classList.toggle("active", k===i)); document.getElementById("n").textContent = (i+1)+" / "+S.length; }
+addEventListener("keydown", e=>{ if(e.key==="ArrowRight") show(i+1); if(e.key==="ArrowLeft") show(i-1); });
+// Fill eval numbers if published
+fetch("/evals.json").then(r=>r.json()).then(d=>{ if(d.p50_ms!=null){document.getElementById("m-p50").textContent=d.p50_ms+" ms";document.getElementById("m-p95").textContent=d.p95_ms+" ms";document.getElementById("m-tcr").textContent=d.task_completion;} }).catch(()=>{});
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robin Voice Ops — AI voice dispatcher for home services</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div class="brand"><span class="logo">◉</span> Robin Voice Ops</div>
+  <div class="tagline">The voice dispatcher for Robin Home Services — built on the AssemblyAI Voice Agent API</div>
+  <nav>
+    <button id="tabCall" class="active">Live call</button>
+    <button id="tabOps">Dispatcher ops</button>
+    <a href="/slides.html" class="deck-link">Pitch deck →</a>
+  </nav>
+</header>
+
+<main>
+<section id="paneCall">
+  <div class="grid2">
+    <div class="card">
+      <h2>Call Robin</h2>
+      <p class="muted">Speak to the agent. Bookings and escalations are held for human approval — approve them in <b>Dispatcher ops</b>.</p>
+      <label>Your name <input id="callerName" placeholder="e.g. Maria Lopez"></label>
+      <label>Phone <input id="callerPhone" placeholder="+14155550101"></label>
+      <div class="row">
+        <button class="chip" onclick="fillPersona('maria')">Maria (returning)</button>
+        <button class="chip" onclick="fillPersona('james')">James (returning)</button>
+        <button class="chip" onclick="fillPersona('new')">New caller</button>
+      </div>
+      <div class="row">
+        <button id="btnCall" class="primary">📞 Start voice call</button>
+        <button id="btnHangup" class="danger" disabled>Hang up</button>
+        <button id="btnDemo">▶ Demo mode</button>
+      </div>
+      <div class="statusline"><span id="callStatus">Idle</span></div>
+      <div class="lat">
+        <div><span class="muted">last turn</span><b id="latencyNow">—</b></div>
+        <div><span class="muted">p50</span><b id="latP50">—</b></div>
+        <div><span class="muted">p95</span><b id="latP95">—</b></div>
+      </div>
+      <div id="partialUser" class="partial"></div>
+      <div id="partialAgent" class="partial agent"></div>
+    </div>
+    <div class="card">
+      <h2>Conversation</h2>
+      <div id="transcript" class="transcript"><div class="empty">Transcripts appear here once the call starts.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Live event stream</h2>
+    <div id="eventFeed" class="feed"></div>
+  </div>
+</section>
+
+<section id="paneOps" style="display:none">
+  <div class="card alert">
+    <h2>⏳ Pending approvals <span class="muted">(human gate — nothing gated happens without you)</span></h2>
+    <div id="approvals"></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h2>Appointments</h2>
+      <table><thead><tr><th>ID</th><th>Customer</th><th>Service</th><th>Slot</th><th>Status</th></tr></thead>
+      <tbody id="tblAppt"></tbody></table>
+      <h2>Service requests</h2>
+      <table><thead><tr><th>ID</th><th>Category</th><th>Priority</th><th>Status</th></tr></thead>
+      <tbody id="tblReq"></tbody></table>
+      <h2>Jobs</h2>
+      <table><thead><tr><th>ID</th><th>Customer</th><th>Service</th><th>Status</th><th>Tech</th></tr></thead>
+      <tbody id="tblJobs"></tbody></table>
+    </div>
+    <div class="card">
+      <h2>Audit log <span id="auditOk" class="ok-pill">…</span></h2>
+      <p class="muted">Hash-chained. Every tool call, approval request, and decision is recorded.</p>
+      <div id="auditLog" class="audit"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>Robin Voice Ops · demo business: Robin Home Services (fictional) · (415) 555-0132</span>
+  <span><a href="https://github.com/solanaminter/robin-voice-ops">GitHub</a></span>
+</footer>
+<script src="/app.js"></script>
+</body>
+</html>
