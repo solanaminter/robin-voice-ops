@@ -1,0 +1,270 @@
+<!doctype html>
+<!-- PATCH: live demo URL — single variable, fill after Vercel deploy. -->
+<html lang="en" data-composition-variables='[{"id":"demo_url","type":"string","label":"Live demo URL — fill after Vercel deploy","default":"https://robin-voice-ops-demo.vercel.app"}]'>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1920, height=1080"/>
+<title>Robin Voice Ops — Demo Video</title>
+<script src="vendor/gsap.min.js"></script>
+<style>
+:root{--bg:#0b0e13;--acc:#4cc38a;--mut:#8b95a5;--card:#141922;--line:#232b36}
+html,body{margin:0;padding:0;background:var(--bg);color:#eef2f7;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#root{position:relative;width:100%;height:100%;overflow:hidden}
+.clip{position:absolute;inset:0}
+.kicker{font-size:26px;letter-spacing:.28em;color:var(--acc);text-transform:uppercase;font-weight:700}
+h1.hero{font-size:84px;line-height:1.1;margin:28px 0 0;font-weight:800;letter-spacing:-.01em}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 140px}
+.cards{display:flex;gap:36px;margin-top:56px}
+.statcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:36px 44px;min-width:340px}
+.statcard .n{font-size:92px;font-weight:800;color:var(--acc);line-height:1}
+.statcard .l{font-size:26px;color:var(--mut);margin-top:14px;line-height:1.35}
+.punch{margin-top:56px;font-size:40px;color:#c9d2dd}
+.punch b{color:#fff}
+.punch .acc{color:var(--acc);font-weight:800}
+.trans{margin-top:44px;font-size:44px;font-weight:800}
+.trans .dot{color:var(--acc)}
+/* scene 2 */
+.s2wrap{position:absolute;left:110px;right:110px;top:190px;bottom:230px;display:flex;gap:50px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 34px;flex:1;display:flex;flex-direction:column}
+.panel h3{margin:0 0 22px;font-size:22px;letter-spacing:.22em;color:var(--acc);text-transform:uppercase}
+.bubble{border-radius:16px;padding:18px 24px;font-size:29px;line-height:1.4;max-width:92%;margin-bottom:18px}
+.bubble.caller{background:#1d2530;align-self:flex-start}
+.bubble.robin{background:#10281c;border:1px solid #1e4d33;align-self:flex-end}
+.bubble .who{display:block;font-size:20px;color:#b9c2ce;margin-bottom:8px;letter-spacing:.08em}
+.tool{border:1px solid var(--line);border-left:6px solid var(--acc);border-radius:12px;padding:16px 20px;margin-bottom:16px;background:#10151d}
+.tool code{font-family:ui-monospace,monospace;font-size:26px;color:#fff}
+.tool .sub{font-size:24px;color:var(--mut);margin-top:8px;line-height:1.35}
+.tool .badge{display:inline-block;background:var(--acc);color:#06281a;font-weight:800;font-size:20px;border-radius:8px;padding:4px 12px;margin-left:14px;vertical-align:middle}
+.approve{background:#10281c;border:1px solid #1e4d33;border-radius:12px;padding:18px 22px;margin-bottom:16px}
+.approve .t{font-size:26px;font-weight:700}
+.approve .d{font-size:23px;color:var(--mut);margin:8px 0 14px}
+.approve .btn{display:inline-block;background:var(--acc);color:#06281a;font-weight:800;font-size:26px;border-radius:10px;padding:12px 34px}
+.audit{position:absolute;left:110px;right:110px;bottom:56px;background:#0d1117;border:1px solid var(--line);border-radius:14px;padding:18px 28px}
+.audit h3{margin:0 0 12px;font-size:20px;letter-spacing:.22em;color:var(--mut);text-transform:uppercase}
+.aline{font-family:ui-monospace,monospace;font-size:23px;color:#9fd8b8;margin:6px 0}
+.aline .h{color:#5b6675}
+.s2note{position:absolute;left:110px;right:110px;bottom:196px;text-align:center;font-size:30px;color:var(--acc);font-weight:700}
+/* scene 3 */
+.node{position:absolute;width:320px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 28px;text-align:center}
+.node .t{font-size:32px;font-weight:800}
+.node .d{font-size:23px;color:var(--mut);margin-top:10px;line-height:1.4}
+.node.hot{border-color:var(--acc)}
+.wire{position:absolute;height:6px;background:#232b36;border-radius:3px}
+.pkt{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--acc);top:0;margin-top:-6px}
+.trust{position:absolute;width:640px;background:#0d1117;border:1px solid var(--line);border-radius:16px;padding:26px 34px}
+.trust .t{font-size:30px;font-weight:800;color:var(--acc)}
+.trust .d{font-size:25px;color:var(--mut);margin-top:10px;line-height:1.45}
+.s3note{position:absolute;left:0;right:0;bottom:120px;text-align:center;font-size:32px;color:#c9d2dd}
+.s3note b{color:#fff}
+/* scene 4 */
+.chips{position:absolute;left:140px;right:140px;top:420px;display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:20px 36px;font-size:30px;font-weight:600}
+.chip .ck{color:var(--acc);margin-right:14px;font-weight:800}
+/* scene 5 */
+.bigstats{display:flex;gap:60px;margin-top:60px}
+.bigstat{text-align:center;min-width:380px}
+.bigstat .n{font-size:130px;font-weight:800;color:var(--acc);line-height:1}
+.bigstat .l{font-size:28px;color:var(--mut);margin-top:16px;line-height:1.4}
+/* scene 6 */
+.s6url{background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:26px 60px;margin-top:44px;font-size:38px;font-weight:700;color:#fff}
+.s6gh{margin-top:28px;font-size:30px;color:var(--mut)}
+.s6by{margin-top:34px;font-size:24px;color:var(--mut);letter-spacing:.06em}
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="robin-demo" data-start="0" data-width="1920" data-height="1080" data-duration="173">
+
+<!-- ============ SCENE 1 · hook (0 – 24.8) ============ -->
+<section class="clip" id="scene1" data-start="0" data-duration="24.8">
+  <div class="center">
+    <div class="kicker" id="s1-kicker">AssemblyAI Voice Agent Hackathon · Sep 2026</div>
+    <h1 class="hero" id="s1-h1">Small contractors drown<br/>in phone calls</h1>
+    <div class="cards">
+      <div class="statcard" id="s1-c1"><div class="n" id="s1-n1">0%</div><div class="l">of calls go unanswered<br/>during job hours</div></div>
+      <div class="statcard" id="s1-c2"><div class="n">$200–$500</div><div class="l">lost revenue<br/>per missed call</div></div>
+      <div class="statcard" id="s1-c3"><div class="n">$3k+/mo</div><div class="l">for an after-hours dispatcher —<br/>unaffordable for small shops</div></div>
+    </div>
+    <div class="punch" id="s1-punch">AI receptionists take messages.<br/><span class="acc">They can't do anything.</span></div>
+    <div class="trans" id="s1-trans"><span class="dot">◉</span> Robin Voice Ops is different.</div>
+  </div>
+</section>
+
+<!-- ============ SCENE 2 · walkthrough (24.8 – 66.5) ============ -->
+<section class="clip" id="scene2" data-start="24.8" data-duration="41.7">
+  <div style="position:absolute;left:110px;top:64px">
+    <div class="kicker" id="s2-kicker">End-to-end walkthrough</div>
+    <h1 class="hero" id="s2-h1" style="font-size:64px">Watch a real call</h1>
+  </div>
+  <div class="s2wrap">
+    <div class="panel" id="s2-phone">
+      <h3>Live call</h3>
+      <div class="bubble caller" id="s2-b1"><span class="who">CALLER</span>"I need a plumber tomorrow morning for a leaking water heater."</div>
+      <div class="bubble robin" id="s2-b2"><span class="who">ROBIN</span>"Checking availability…"</div>
+      <div class="bubble robin" id="s2-b3"><span class="who">ROBIN</span>"You're booked for Wednesday at 9:00 AM. Confirmation sent."</div>
+    </div>
+    <div class="panel" id="s2-tools">
+      <h3>Tool feed</h3>
+      <div class="tool" id="s2-t1"><code>tool.call check_availability</code><div class="sub">2 slots found: Wed 9:00 AM · Wed 11:30 AM</div></div>
+      <div class="tool" id="s2-t2"><code>tool.call book_appointment</code><span class="badge">HOLD</span><div class="sub">⏸ pending — dispatcher approval queue</div></div>
+      <div class="approve" id="s2-t3"><div class="t">Dispatcher approval</div><div class="d">Book: Wed 9:00 AM · water heater · Maria Lopez</div><div class="btn" id="s2-approve">Approve</div></div>
+      <div class="tool" id="s2-t4"><code>tool.result</code><div class="sub">✓ approved — confirmation delivered into the call</div></div>
+    </div>
+  </div>
+  <div class="s2note" id="s2-note">No hallucinated bookings, ever.</div>
+  <div class="audit" id="s2-audit">
+    <h3>Audit log · hash-chained</h3>
+    <div class="aline" id="s2-a1"><span class="h">a3f9…</span> tool.call check_availability</div>
+    <div class="aline" id="s2-a2"><span class="h">7b21…</span> approval.request book_appointment</div>
+    <div class="aline" id="s2-a3"><span class="h">c4d8…</span> approval.decision APPROVED (human)</div>
+    <div class="aline" id="s2-a4"><span class="h">e9a2…</span> tool.result delivered</div>
+  </div>
+</section>
+
+<!-- ============ SCENE 3 · architecture (66.5 – 98.8) ============ -->
+<section class="clip" id="scene3" data-start="66.5" data-duration="32.3">
+  <div style="position:absolute;left:110px;top:64px">
+    <div class="kicker" id="s3-kicker">System architecture</div>
+    <h1 class="hero" id="s3-h1" style="font-size:64px">One WebSocket. Real side effects.</h1>
+  </div>
+  <div style="position:absolute;left:0;right:0;top:330px;height:260px" id="s3-flow">
+    <div class="node" id="s3-n1" style="left:100px;top:30px"><div class="t">Caller</div><div class="d">browser mic<br/>Twilio PSTN</div></div>
+    <div class="node hot" id="s3-n2" style="left:580px;top:30px"><div class="t">Voice Agent API</div><div class="d">AssemblyAI WebSocket<br/>STT + LLM + TTS</div></div>
+    <div class="node" id="s3-n3" style="left:1060px;top:30px"><div class="t">Backend</div><div class="d">/api/tool<br/>tools · approvals · audit</div></div>
+    <div class="node" id="s3-n4" style="left:1540px;top:30px"><div class="t">Data</div><div class="d">Postgres / SQLite<br/>jobs · slots · KB · memory</div></div>
+    <div class="wire" style="left:420px;top:148px;width:160px"></div>
+    <div class="wire" style="left:900px;top:148px;width:160px"></div>
+    <div class="wire" style="left:1380px;top:148px;width:160px"></div>
+    <div class="pkt" id="s3-p1" style="left:420px;top:148px"></div>
+    <div class="pkt" id="s3-p2" style="left:900px;top:148px"></div>
+    <div class="pkt" id="s3-p3" style="left:1380px;top:148px"></div>
+  </div>
+  <div class="trust" id="s3-t1" style="left:200px;top:660px"><div class="t">Approval queue</div><div class="d">Bookings &amp; escalations hold — a human decides, the agent waits in hold mode.</div></div>
+  <div class="trust" id="s3-t2" style="left:1080px;top:660px"><div class="t">Hash-chained audit log</div><div class="d">SHA-256 chained — every tool call &amp; decision verifiable in the dashboard.</div></div>
+  <div class="s3note" id="s3-note">Lookups run instantly. <b>Irreversible actions wait for a human.</b></div>
+</section>
+
+<!-- ============ SCENE 4 · deep integration (98.8 – 136.8) ============ -->
+<section class="clip" id="scene4" data-start="98.8" data-duration="38">
+  <div class="center" style="justify-content:flex-start;padding-top:90px">
+    <div class="kicker" id="s4-kicker">Deep AssemblyAI integration</div>
+    <h1 class="hero" id="s4-h1" style="font-size:72px">Not a prompt wrapper.</h1>
+  </div>
+  <div class="chips" id="s4-chips">
+    <div class="chip" id="s4-c01"><span class="ck">✓</span>session.update inline</div>
+    <div class="chip" id="s4-c02"><span class="ck">✓</span>keyterms biasing</div>
+    <div class="chip" id="s4-c03"><span class="ck">✓</span>transcription prompt</div>
+    <div class="chip" id="s4-c04"><span class="ck">✓</span>voice_focus near-field</div>
+    <div class="chip" id="s4-c05"><span class="ck">✓</span>barge-in turn-taking</div>
+    <div class="chip" id="s4-c06"><span class="ck">✓</span>JSON-Schema tools</div>
+    <div class="chip" id="s4-c07"><span class="ck">✓</span>interactive vs hold modes</div>
+    <div class="chip" id="s4-c08"><span class="ck">✓</span>progressive tool reveal</div>
+    <div class="chip" id="s4-c09"><span class="ck">✓</span>temp-token auth</div>
+    <div class="chip" id="s4-c10"><span class="ck">✓</span>session.resume</div>
+    <div class="chip" id="s4-c11"><span class="ck">✓</span>word-level captions</div>
+    <div class="chip" id="s4-c12"><span class="ck">✓</span>Twilio PSTN bridge</div>
+  </div>
+  <div class="s3note" id="s4-note" style="bottom:120px">Every layer of the Voice Agent API — <b>used for real.</b></div>
+</section>
+
+<!-- ============ SCENE 5 · evidence (136.8 – 160.8) ============ -->
+<section class="clip" id="scene5" data-start="136.8" data-duration="24">
+  <div class="center">
+    <div class="kicker" id="s5-kicker">Measured, not adjectives</div>
+    <div class="bigstats">
+      <div class="bigstat" id="s5-s1"><div class="n">6/6</div><div class="l">task completion<br/>live API scenarios</div></div>
+      <div class="bigstat" id="s5-s2"><div class="n" id="s5-lat">0.00s</div><div class="l">p50 decision latency<br/>caller stops → tool.call</div></div>
+      <div class="bigstat" id="s5-s3"><div class="n">25/25</div><div class="l">offline tests pass<br/>gates · audit · memory</div></div>
+    </div>
+    <div class="punch" id="s5-note">Full evals + methodology — <b>in the repo.</b></div>
+  </div>
+</section>
+
+<!-- ============ SCENE 6 · closing (160.8 – 173) ============ -->
+<section class="clip" id="scene6" data-start="160.8" data-duration="12.2">
+  <div class="center">
+    <div class="kicker" id="s6-kicker">AssemblyAI Voice Agent Hackathon</div>
+    <h1 class="hero" id="s6-logo" style="font-size:110px"><span style="color:var(--acc)">◉</span> Robin Voice Ops</h1>
+    <div class="punch" id="s6-tag" style="margin-top:24px">The voice dispatcher <b>that does things.</b></div>
+    <div class="s6url" id="s6-demo">Live demo:&nbsp;<span data-var-text="demo_url">https://robin-voice-ops-demo.vercel.app</span></div>
+    <div class="s6gh" id="s6-gh">github.com/solanaminter/robin-voice-ops</div>
+    <div class="s6by" id="s6-by">Built solo by Solana Minter · Purple Castle Ventures</div>
+  </div>
+</section>
+
+<!-- ============ narration ============ -->
+<audio id="n1" src="audio/s1_hook.wav" data-start="0.4"></audio>
+<audio id="n2" src="audio/s2_walkthrough.wav" data-start="25.2"></audio>
+<audio id="n3" src="audio/s3_architecture.wav" data-start="66.9"></audio>
+<audio id="n4" src="audio/s4_integration.wav" data-start="99.2"></audio>
+<audio id="n5" src="audio/s5_evidence.wav" data-start="137.2"></audio>
+<audio id="n6" src="audio/s6_closing.wav" data-start="161.2"></audio>
+
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+function pop(sel, t, dur) {
+  tl.fromTo(sel, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: dur || 0.55, ease: "power3.out" }, t);
+}
+function countUp(sel, t, end, dur, fmt) {
+  const el = document.querySelector(sel);
+  const o = { v: 0 };
+  tl.to(o, { v: end, duration: dur, ease: "power2.out", onUpdate: function(){ el.textContent = fmt(o.v); } }, t);
+}
+
+/* ---- scene 1 ---- */
+pop("#s1-kicker", 0.6); pop("#s1-h1", 1.0);
+pop("#s1-c1", 4.0); pop("#s1-c2", 7.0); pop("#s1-c3", 10.0);
+countUp("#s1-n1", 4.0, 62, 1.4, function(v){ return Math.round(v) + "%"; });
+pop("#s1-punch", 15.0); pop("#s1-trans", 21.0);
+
+/* ---- scene 2 ---- */
+pop("#s2-kicker", 25.2); pop("#s2-h1", 25.6);
+pop("#s2-phone", 26.4, 0.6); pop("#s2-tools", 26.8, 0.6);
+pop("#s2-b1", 27.2); pop("#s2-b2", 29.8);
+pop("#s2-t1", 30.8);
+pop("#s2-a1", 33.5);
+pop("#s2-t2", 40.5);
+pop("#s2-a2", 43.2);
+pop("#s2-t3", 44.2);
+tl.to("#s2-approve", { scale: 0.9, duration: 0.12, ease: "power2.in" }, 50.0);
+tl.to("#s2-approve", { scale: 1, duration: 0.18, ease: "power2.out" }, 50.12);
+tl.call(function(){ document.querySelector("#s2-approve").textContent = "✓ APPROVED"; }, null, 50.4);
+pop("#s2-a3", 52.0);
+pop("#s2-t4", 54.5);
+pop("#s2-b3", 55.8);
+pop("#s2-a4", 58.2);
+pop("#s2-note", 61.2);
+pop("#s2-audit", 30.0, 0.6);
+
+/* ---- scene 3 ---- */
+pop("#s3-kicker", 67.0); pop("#s3-h1", 67.4);
+pop("#s3-n1", 68.6); pop("#s3-n2", 69.4); pop("#s3-n3", 70.2); pop("#s3-n4", 71.0);
+["#s3-p1","#s3-p2","#s3-p3"].forEach(function(sel, i){
+  tl.fromTo(sel, { x: 0, opacity: 0 }, { x: 142, opacity: 1, duration: 1.6, ease: "none", repeat: 9 }, 72 + i * 0.5);
+});
+pop("#s3-t1", 80.5); pop("#s3-t2", 82.5);
+pop("#s3-note", 90.5);
+
+/* ---- scene 4 ---- */
+pop("#s4-kicker", 99.5); pop("#s4-h1", 99.9);
+for (let i = 1; i <= 12; i++) {
+  const id = "#s4-c" + String(i).padStart(2, "0");
+  pop(id, 102.0 + (i - 1) * 1.7);
+}
+pop("#s4-note", 126.5);
+
+/* ---- scene 5 ---- */
+pop("#s5-kicker", 137.5);
+pop("#s5-s1", 138.5); pop("#s5-s2", 141.5); pop("#s5-s3", 144.5);
+countUp("#s5-lat", 141.5, 1.81, 1.6, function(v){ return v.toFixed(2) + "s"; });
+pop("#s5-note", 150.0);
+
+/* ---- scene 6 ---- */
+pop("#s6-kicker", 161.5); pop("#s6-logo", 161.9);
+pop("#s6-tag", 162.8); pop("#s6-demo", 164.2);
+pop("#s6-gh", 165.6); pop("#s6-by", 167.0);
+
+window.__timelines["robin-demo"] = tl;
+</script>
+</body>
+</html>

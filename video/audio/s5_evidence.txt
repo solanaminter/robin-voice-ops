@@ -1,0 +1,1 @@
+Measured, not adjectives. Against the live API, Robin completes six out of six scripted voice scenarios — booking, job status, FAQs, emergency escalation, and off-script handling — with a median decision latency of one point eight seconds. Twenty-five out of twenty-five offline tests pass: approval gates, audit-log tamper detection, caller memory, and more.
