@@ -19,7 +19,10 @@ Env: TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN (for request validation),
      ASSEMBLYAI_API_KEY, DATABASE_URL / ROBIN_DB_PATH.
 """
 import asyncio
-import audioop
+try:
+    import audioop  # removed in Python 3.13; PSTN audio path only
+except ImportError:  # pragma: no cover
+    audioop = None
 import base64
 import json
 import os
