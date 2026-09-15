@@ -1,1 +1,1 @@
-{"name":"robin-voice-ops-demo","rewrites":[{"destination":"/web/worklets/:p*","source":"/worklets/:p*"},{"destination":"/web/slides.html","source":"/slides.html"},{"destination":"/web/app.js","source":"/app.js"},{"destination":"/web/styles.css","source":"/styles.css"},{"destination":"/web/evals.json","source":"/evals.json"},{"destination":"/web/index.html","source":"/"}]}
+{"name":"robin-voice-ops-demo"}
